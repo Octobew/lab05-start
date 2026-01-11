@@ -1,6 +1,7 @@
 import express, {Request, Response} from 'express'
 import eventRoute from "./routes/EventRoute";
 
+
 import multer from 'multer';
 import { uploadFile } from './services/UploadFileService';
 
@@ -17,11 +18,11 @@ app.post('/upload', upload.single('file'), async (req: any, res: any) => {
     }
 
     const bucket = 'lab5';
-    const filePath = `uploads/${file.originalname}`;
+    const filePath = `uploads`;
 
-    await uploadFile(bucket, filePath, file);
+    const fileKey = await uploadFile(bucket, filePath, file);
 
-    res.status(200).send('File uploaded successfully.');
+    res.status(200).send(fileKey);
   } catch (error) {
     res.status(500).send('Error uploading file.');
   }
@@ -50,6 +51,22 @@ webApp.listen(webPort, () => {
 })
 
 import cors, {CorsOptions} from 'cors';
+
+app.get('/presignedUrl', async (req: Request, res: Response) => {
+    try {
+        const { key } = req.query;        
+        if (!key || typeof key !== 'string') {
+            return res.status(400).send('File key is required.');
+        }        
+        const bucket = 'lab5';
+        const { getPresignedUrl } = await import('./services/UploadFileService');
+        const presignedUrl = await getPresignedUrl(bucket, key, 3600);
+        res.status(200).json({ url: presignedUrl });
+   } catch (error) {
+        console.error('Error generating presigned URL:', error);
+        res.status(500).send('Error generating presigned URL.');
+    }
+});
 
 
 
