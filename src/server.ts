@@ -1,11 +1,12 @@
 import express, {Request, Response} from 'express'
 import eventRoute from "./routes/EventRoute";
-
+import cors, {CorsOptions} from 'cors';
+import path from 'path';
+import { uploadFile } from './services/UploadFileService';
 
 import multer from 'multer';
 import dotenv from 'dotenv';
 dotenv.config();
-import { uploadFile } from './services/UploadFileService';
 
 const app = express()
 const port = process.env.PORT || 3000;
@@ -47,7 +48,6 @@ app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)
 })
 
-import path from 'path';
 const webApp = express()
 const webPort= 5050
 webApp.use(express.static(path.join(process.cwd())));
@@ -55,7 +55,6 @@ webApp.listen(webPort, () => {
     console.log(`WebApp listening at http://localhost:${webPort}`)
 })
 
-import cors, {CorsOptions} from 'cors';
 
 app.get('/presignedUrl', async (req: Request, res: Response) => {
     try {
