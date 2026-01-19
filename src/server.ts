@@ -1,5 +1,6 @@
 import express, {Request, Response} from 'express'
 import eventRoute from "./routes/EventRoute";
+import authRoute from './routes/AuthRoute';
 import cors, {CorsOptions} from 'cors';
 import path from 'path';
 import { uploadFile } from './services/UploadFileService';
@@ -11,6 +12,7 @@ dotenv.config();
 const app = express()
 const port = process.env.PORT || 3000;
 app.use(express.json())
+app.use('/api/v1/auth', authRoute);
 
 const upload = multer({ storage: multer.memoryStorage() });
 app.post('/upload', upload.single('file'), async (req: any, res: any) => {
