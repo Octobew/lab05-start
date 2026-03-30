@@ -1,5 +1,5 @@
-export interface RegisterRequest{
-    organizerName: string
-    username: string
-    password: string
+export interface RegisterRequest {
+  organizerName: string;
+  username: string;
+  password: string;
 }

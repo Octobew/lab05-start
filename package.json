@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "tsx src/seed.ts",
-    "build": "prisma generate && tsc",
-    "dev": "nodemon"
+    "seed": "tsx prisma/seed.ts",
+    "dev": "nodemon",
+    "build": "prisma generate && tsc"
   },
   "keywords": [],
   "author": "",
